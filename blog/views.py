@@ -28,6 +28,8 @@ def create_post(request):
     elif request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
+            user = form.save(commit=False)
+            user.author = request.user
             form.save()
             messages.success(request, 'The form has been created successfully')
             return redirect('posts')
@@ -39,7 +41,8 @@ def create_post(request):
 # Edit post view
 @login_required
 def edit_post(request, id):
-    post = get_object_or_404(Post, id=id)
+    queryset = Post.objects.filter(author=request.user)
+    post = get_object_or_404(Post, pk=id)
 
     #Show the forms with edit option
     if request.method == 'GET':
@@ -60,7 +63,10 @@ def edit_post(request, id):
 # Deleting a post view
 @login_required
 def delete_post(request, id):
+    queryset = Post.objects.filter(author=request.user)
+    post = get_object_or_404(queryset, pk=id)
     post = get_object_or_404(Post, pk=id)
+
     context = {'post': post}
 
     if request.method == 'GET':
