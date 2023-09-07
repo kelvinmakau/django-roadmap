@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # register blog app
-    'blog.apps.BlogConfig' # or just blog
+    'blog.apps.BlogConfig', # or just blog
+    # register users app
+    'users.apps.UsersConfig' # or just users
 ]
 
 MIDDLEWARE = [
@@ -56,7 +58,8 @@ ROOT_URLCONF = 'django_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # Add base dir
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -107,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Etc/GMT-3'
 
 USE_I18N = True
 
@@ -118,6 +121,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# Login URL
+LOGIN_URL = 'login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
